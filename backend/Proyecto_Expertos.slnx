@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Proyecto_Expertos.API/Proyecto_Expertos.API.csproj" />
+  <Project Path="Proyecto_Expertos.Application/Proyecto_Expertos.Application.csproj" />
+  <Project Path="Proyecto_Expertos.Domain/Proyecto_Expertos.Domain.csproj" />
+  <Project Path="Proyecto_Expertos.Infrastructure/Proyecto_Expertos.Infrastructure.csproj" />
+</Solution>

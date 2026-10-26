@@ -1,0 +1,27 @@
+## Build and Binary Directories (.NET / C#)
+bin/
+obj/
+[Bb]in/
+[Ob]j/
+
+## Environment & Secrets
+.env
+*.env
+appsettings*.local.json
+appsettings.Secrets.json
+
+## IDE & Editor files
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## OS Generated Files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
