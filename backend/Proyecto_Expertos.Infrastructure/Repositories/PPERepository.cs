@@ -14,6 +14,13 @@ namespace Proyecto_Expertos.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<PPE_Global> AddSync(PPE_Global ppe)
+        {
+            await _context.PPE_Global.AddAsync(ppe);
+            await _context.SaveChangesAsync();
+            return ppe;
+        }
+
         public async Task<IEnumerable<PPE_Global>> GetAllAsync()
         {
             return await _context.PPE_Global.ToListAsync();

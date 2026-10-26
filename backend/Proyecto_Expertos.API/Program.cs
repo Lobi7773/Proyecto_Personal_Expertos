@@ -1,5 +1,6 @@
 using DotNetEnv;
 using Proyecto_Expertos.Infrastructure;
+using Scalar.AspNetCore;
 
 Env.Load();
 
@@ -19,6 +20,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
@@ -41,7 +44,7 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
-
+app.MapControllers();
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
