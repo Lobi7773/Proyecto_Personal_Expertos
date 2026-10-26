@@ -1,14 +1,21 @@
 using DotNetEnv;
+using Proyecto_Expertos.Infrastructure;
+
+Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__PostgresConnection") 
+                       ?? throw new InvalidOperationException("Falta la cadena de conexión.");
+
+builder.Services.AddInfrastructure(connectionString);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-Env.Load();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
