@@ -1,16 +1,18 @@
 ### 1. Obtener todos los hábitos (Prueba del Verbo GET)
 # Nota: Cambia el puerto 5157 por el puerto real que te arroje la terminal
 
-GET http://localhost:5157/api/
+GET http://localhost:5157/api/proyectopersonal
 Accept: application/json
 
 ### 2. Crear un nuevo hábito (Prueba del Verbo POST)
-POST http://localhost:5157/api/
+POST http://localhost:5157/api/proyectopersonal
 Content-Type: application/json
 
 {
   "nombre": "Estudiar Arquitectura Limpia y Event Sourcing"
-}@Proyecto_Expertos.API_HostAddress = http://localhost:5259
+}
+
+@Proyecto_Expertos.API_HostAddress = http://localhost:5259
 
 GET {{Proyecto_Expertos.API_HostAddress}}/weatherforecast/
 Accept: application/json

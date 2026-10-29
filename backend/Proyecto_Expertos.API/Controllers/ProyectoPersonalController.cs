@@ -1,7 +1,9 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Proyecto_Expertos.Application.Interfaces;
 using Proyecto_Expertos.Domain.Entities;
-
+using Proyecto_Expertos.Application.Features.Proyectos.DTOs;
+using System.ComponentModel.DataAnnotations;
 namespace Proyecto_Expertos.API.Controllers
 {
     [ApiController]
@@ -9,29 +11,50 @@ namespace Proyecto_Expertos.API.Controllers
     public class ProyectoPersonalController : ControllerBase
     {
         private readonly IPPERepository _ppeRepository;
-
-        public ProyectoPersonalController(IPPERepository ppeRepository)
+        private readonly IValidator<CreateProyectoRequestDto> _validator;
+        public ProyectoPersonalController(IPPERepository ppeRepository, IValidator<CreateProyectoRequestDto> validator)
         {
             _ppeRepository = ppeRepository;
+            _validator = validator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PPE_Global>>> GetAll()
+        public async Task<IActionResult> GetProyectos()
         {
-            var ppeList = await _ppeRepository.GetAllAsync();
-            return Ok(ppeList);
+            var proyectos = await _ppeRepository.GetAllAsync();
+
+            var response = proyectos.Select(h => new ProyectosResponseDto
+            {
+                Id = h.Id,
+                Nombre = h.Nombre
+            });
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult> crearPPE([FromBody] PPE_Global ppe)
+        public async Task<IActionResult> crearPPE([FromBody] CreateProyectoRequestDto request)
         {
-         if (string.IsNullOrWhiteSpace(ppe.Nombre))
+            var validationResult = await _validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
             {
-                return BadRequest("El nombre es obligatorio.");
+                return BadRequest(validationResult.Errors);
             }
 
-            var createdPPE = await _ppeRepository.AddSync(ppe);
-            return CreatedAtAction(nameof(GetAll), new { id = createdPPE.Id }, createdPPE);
+            var nuevoProyecto = new PPE_Global
+            {
+                Nombre = request.Nombre
+            };
+
+            var proyectoCreado = await _ppeRepository.AddSync(nuevoProyecto);
+
+            var response =new ProyectosResponseDto
+            {
+                Id = proyectoCreado.Id,
+                Nombre = proyectoCreado.Nombre
+            };
+
+            return CreatedAtAction(nameof(GetProyectos),new {id = response.Id}, response);
         }
     }
 }
