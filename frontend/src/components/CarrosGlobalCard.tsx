@@ -3,7 +3,7 @@
 // --- ZONA 1: EL CONTRATO (INTERFAZ) ---
 // Actúa como un espejo exacto de nuestra tabla PostgreSQL / DTO en C#.
 // Nuestra tabla actual solo tiene Id y Nombre.
-interface CarroGlobalProps {
+export interface CarroGlobalProps {
     id: number;
     nombre: string;
 }
